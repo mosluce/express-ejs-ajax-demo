@@ -1,0 +1,17 @@
+{
+  "name": "express-ejs-ajax-demo",
+  "description": "",
+  "main": "",
+  "authors": [
+    "默司 <mosluce@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
