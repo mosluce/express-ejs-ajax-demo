@@ -1,42 +1,67 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <div>
-      <button id="get-json-data-button">JSON</button>
-    </div>
-    <div>
-      <button id="get-view-data-button">Partial View</button>
-    </div>
-    <div>
-      The data you got from AJAX:
-      <div id="data-container">
-      
-      </div>
-    </div>
 
-    <script src="/jquery/dist/jquery.min.js"></script>
-    <script>
-      var jsonButton = $('#get-json-data-button')
-      var viewButton = $('#get-view-data-button')
-      var dataContainer = $('#data-container')
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
 
-      jsonButton.click(function() {
-        $.get('/data/json-demo', function(data) {
-          dataContainer.html('<pre>'+JSON.stringify(data)+'</pre>')
-        })
+<body>
+  <h1>
+    <%= title %>
+  </h1>
+  <p>Welcome to
+    <%= title %>
+  </p>
+  <div>
+    <button id="get-json-data-button">JSON</button>
+  </div>
+  <div>
+    <button id="get-view-data-button-1">Partial View - P1</button>
+    <button id="get-view-data-button-2">Partial View - P2</button>
+    <button id="get-view-data-button-3">Partial View - P3</button>
+  </div>
+  <div>
+    The data you got from AJAX:
+    <div id="data-container">
+
+    </div>
+  </div>
+
+  <script src="/jquery/dist/jquery.min.js"></script>
+  <script>
+    var jsonButton = $('#get-json-data-button')
+    var viewButton1 = $('#get-view-data-button-1')
+    var viewButton2 = $('#get-view-data-button-2')
+    var viewButton3 = $('#get-view-data-button-3')
+    var dataContainer = $('#data-container')
+
+    jsonButton.click(function () {
+      $.get('/data/json-demo', function (data) {
+        dataContainer.html('<pre>' + JSON.stringify(data) + '</pre>')
       })
+    })
 
-      viewButton.click(function() {
-        $.get('/data/view-demo', function(data) {
-          dataContainer.html(data)
-        })
+    viewButton1.click(function () {
+      $.get('/data/view-demo?page=1', function (data) {
+        dataContainer.html(data)
       })
-    </script>
-  </body>
+    })
+
+    viewButton2.click(function () {
+      $.get('/data/view-demo?page=2', function (data) {
+        dataContainer.html(data)
+      })
+    })
+
+    viewButton3.click(function () {
+      $.get('/data/view-demo?page=3', function (data) {
+        dataContainer.html(data)
+      })
+    })
+  </script>
+</body>
+
 </html>

@@ -2,8 +2,11 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/json-demo', function (req, res, next) {
+    var page = req.query.page;
+
     res.send({
-        hello: 'world'
+        hello: 'world',
+        page
     })
 });
 
@@ -11,8 +14,11 @@ router.get('/json-demo', function (req, res, next) {
  * partial view 
  */
 router.get('/view-demo', function (req, res, next) {
+    var page = req.query.page;
+
     res.render('data-view-demo', {
-        title: 'Hello World'
+        title: 'Hello World',
+        page
     })
 });
 
