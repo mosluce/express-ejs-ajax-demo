@@ -5,7 +5,6 @@
   <title>
     <%= title %>
   </title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 <body>
@@ -15,51 +14,61 @@
   <p>Welcome to
     <%= title %>
   </p>
-  <div>
-    <button id="get-json-data-button">JSON</button>
-  </div>
-  <div>
-    <button id="get-view-data-button-1">Partial View - P1</button>
-    <button id="get-view-data-button-2">Partial View - P2</button>
-    <button id="get-view-data-button-3">Partial View - P3</button>
-  </div>
+  <hr>
   <div>
     The data you got from AJAX:
-    <div id="data-container">
-
+    <div id="content">
     </div>
   </div>
 
   <script src="/jquery/dist/jquery.min.js"></script>
   <script>
-    var jsonButton = $('#get-json-data-button')
-    var viewButton1 = $('#get-view-data-button-1')
-    var viewButton2 = $('#get-view-data-button-2')
-    var viewButton3 = $('#get-view-data-button-3')
-    var dataContainer = $('#data-container')
+    function loadContentWithPage(page) {
+      loadContentWithUrl('/data/json?page=' + page);
+    }
 
-    jsonButton.click(function () {
-      $.get('/data/json-demo', function (data) {
-        dataContainer.html('<pre>' + JSON.stringify(data) + '</pre>')
-      })
-    })
+    function loadContentWithLink(e) {
+      e.preventDefault();
+      loadContentWithUrl($(this).attr('href'))
+    }
 
-    viewButton1.click(function () {
-      $.get('/data/view-demo?page=1', function (data) {
-        dataContainer.html(data)
-      })
-    })
+    function loadContentWithUrl(url) {
+      $.get(url, function (json) {
+        buildView(json);
+      });
+    }
 
-    viewButton2.click(function () {
-      $.get('/data/view-demo?page=2', function (data) {
-        dataContainer.html(data)
-      })
-    })
+    function buildView(json) {
+      var element = $('<div>');
+      var h2 = $('<h2>');
+      var content = $('<div>');
+      var pagination = $('<div class="pagination">');
 
-    viewButton3.click(function () {
-      $.get('/data/view-demo?page=3', function (data) {
-        dataContainer.html(data)
-      })
+      element.append(h2);
+      element.append(content);
+      element.append(pagination);
+
+      h2.text(json.title);
+      content.text('this is page: ' + json.page);
+
+      for (var i = 1; i <= json.totalPages; i++) {
+        var link = $('<a>');
+        if (i != json.page) {
+          link.attr('href', '/data/json?page=' + i)
+        }
+        link.css('display', 'link-block');
+        link.css('padding', '4px');
+        link.css('margin', '0 2px')
+        link.text(i);
+        link.click(loadContentWithLink);
+        pagination.append(link);
+      }
+
+      $('#content').html('').append(element);
+    }
+
+    $(document).ready(function () {
+      loadContentWithPage(1)
     })
   </script>
 </body>
